@@ -1,7 +1,7 @@
-# Brute-force Mnemonic Bitcoin on GPU(CUDA)  
+# Brute-force Mnemonic Bitcoin on GPU(CUDA) Limit Words
 ## (Version 2.0.0)
 ## Генерация мнемонических фраз Bitcoin и соответствующих приватных ключей адресов m/0/x, m/1/x, m/0/0/x, m/0/1/x, m/44'/0'/0'/0/x, m/44'/0'/0'/1/x, m/49'/0'/0'/0/x, m/49'/0'/0'/1/x, m/84'/0'/0'/0/x, m/84'/0'/0'/1/x. Поиск адресов в базе.
-![](image/Screenshot_1.png)
+
 
 ## Файл config.cfg
  * ***"folder_tables_legacy": "F:\\tables_legacy"***  - путь к папке с таблицами адресов Bitcoin Legacy(BIP32, BIP44). Адреса в таблицах должны быть в формате hash160 и отсортированы программой https://github.com/Houzich/Convert-Addresses-To-Hash160-For-Brute-Force.
@@ -29,6 +29,21 @@
 
 * ***"static_words_generate_mnemonic": "potato toe drift ? trip garbage crouch ? state siren poem"*** - Какие слова генерировать? Можно задать слова из первых 11 слов мнемоники, которые будут постоянными. Генерироваться будут только те слова, которые указаны символом "?". К примеру, можно задать "potato toe drift ? trip garbage crouch ? state siren poem". Тогда генерироваться будут только 4, 8 и 12 слова.</br></br>
 
+* ***"wordlist_word_1": ""*** - список слов для 1-го слова генерируемых мнемоник.
+* ***"wordlist_word_2": ""*** - список слов для 1-го слова генерируемых мнемоник.
+* ***"wordlist_word_3": ""*** - список слов для 1-го слова генерируемых мнемоник.
+* ***"wordlist_word_4": ""*** - список слов для 1-го слова генерируемых мнемоник.
+* ***"wordlist_word_5": ""*** - список слов для 1-го слова генерируемых мнемоник.
+* ***"wordlist_word_6": ""*** - список слов для 1-го слова генерируемых мнемоник.
+* ***"wordlist_word_7": ""*** - список слов для 1-го слова генерируемых мнемоник.
+* ***"wordlist_word_8": ""*** - список слов для 1-го слова генерируемых мнемоник.
+* ***"wordlist_word_9": ""*** - список слов для 1-го слова генерируемых мнемоник.
+* ***"wordlist_word_10": ""*** - список слов для 1-го слова генерируемых мнемоник.
+* ***"wordlist_word_11": ""*** - список слов для 1-го слова генерируемых мнемоник.
+* ***"wordlist_word_12": ""*** - список слов для 1-го слова генерируемых мнемоник.
+
+* ***"rounds_check_validity": 4194304*** - количество раундов попыток подобрать вилидную мнемонику каждым потоком видеокарты.
+
 * ***"cuda_grid": 1024*** - настройка под видеокарту.
 * ***"cuda_block": 256*** - настройка под видеокарту.
 Кол-во генерируемых мнемоник за раунд равно cuda_grid*cuda_block.
@@ -48,7 +63,9 @@
 > *Device 2: "NVIDIA GeForce GTX 1050 Ti"*</br>
 > *Enter the number of the used video card:*</br>
 
-Начинается считывание и преобразование файлов баз с адресами:
+Нужно ввести номер используемой карты.</br>
+
+Начинается считывание и преобразование файлов таблиц с адресами:
 > *PROCESSED 2168134 ROWS IN FILE F:\\tables_legacy\A0.csv*</br>
 > *...* </br>
 > *PROCESSED 1232455 ROWS IN FILE F:\\tables_segwit\A0.csv*</br>
@@ -56,12 +73,12 @@
 > *PROCESSED 3455665 ROWS IN FILE F:\\tables_native_segwit\A0.csv*</br>
 > *...*
 
-Где 2168134 - это кол-во адресов в файле. Адреса в файле хранятся в 20 байтовом формате в виде hex-строки. И отсортированы по возрастанию.
+Где 2168134 - это кол-во адресов в файле. Адреса в файле хранятся в 20 байтовом формате(hash160) в виде hex-строки. И отсортированы по возрастанию.
 
 Далее выводится кол-во кошельков генерируемых за раунд. И начинается процесс генерации.
 В ходе работы программы, постоянно обновляется надпись
 
-> *SPEED:      8440 MNEMONICS/SECOND AND 844,000 ADDRESSES/SECOND, ROUND: 0*
+> *GENERATE: 836 MNEMONICS/SEC AND 83,681 ADDRESSES/SEC | SCAN: 7.003345 TERA ADDRESSES/SEC | ROUND: 5*
 
 Кол-во мнемоник и кол-во адресов генерируемых за секунду. В данном случае, для каждого сгенерированного кошелька генерировалось 100 адресов *(10 адресов патча m/0/x, 10 адресов патча m/1/x, 10 адресов патча m/0/0/x, 10 адресов патча m/0/1/x, 10 адресов патча m/44'/0'/0'/0/x, 10 адресов патча m/44'/0'/0'/0/x, 10 адресов патча m/49'/0'/0'/0/x, 10 адресов патча m/49'/0'/0'/0/x, 10 адресов патча m/84'/0'/0'/0/x и 10 адресов патча m/84'/0'/0'/1/x)*
 
@@ -70,10 +87,10 @@
 
 > *!!!FOUND IN ADDRESS(HASH160) (m/84'/0'/0'/1/6) EQUAL 6 BYTES: special weekend hope visual subway sword cactus replace aunt okay waste ride, bc1q3c4l9cgkl76x6lppr47rgljkzaau4v4a6u8ch8, bc1q3c4l9cgkla8yvtzgpl5296850rka6ks0gxkqcl, 8E2BF2E116FFB46D7C211D7C347E56177BCAB2BD, 8E2BF2E116FF4E462C480FE8A2E8F478EDDD5A0F*
 
-Мнемоника сгенерированного кошелька. Адрес кошелька. Адрес в базе, который совпал по первым байтам с адресом мнемоники. И соответственно их представление в 20-и байтовом формате Hash160. Можно посчитать одинаковые байты и убедиться в этом.
+(*EQUAL 6 BYTES*) - количество совпавших байт. Мнемоника сгенерированного кошелька. Адрес кошелька. Адрес в базе, который совпал по первым байтам с адресом мнемоники. И соответственно их представление в 20-и байтовом формате Hash160. Можно посчитать одинаковые байты и убедиться в этом.
 Все эти адреса сохраняются в лог-файл Found_Bytes.csv.
 В файле, строки хранятся в виде:</br>
-*special weekend hope visual subway sword cactus replace aunt okay waste ride, address path m/84'/0'/0'/1/6:, bc1q3c4l9cgkl76x6lppr47rgljkzaau4v4a6u8ch8, address in table:, bc1q3c4l9cgkla8yvtzgpl5296850rka6ks0gxkqcl, hash160 path m/84'/0'/0'/1/6:, 8E2BF2E116FFB46D7C211D7C347E56177BCAB2BDhash160 in table:, 8E2BF2E116FF4E462C480FE8A2E8F478EDDD5A0F, Sun Apr 16 18:11:54 2023*
+*EQUAL 6 BYTES,special weekend hope visual subway sword cactus replace aunt okay waste ride, address path m/84'/0'/0'/1/6:, bc1q3c4l9cgkl76x6lppr47rgljkzaau4v4a6u8ch8, address in table:, bc1q3c4l9cgkla8yvtzgpl5296850rka6ks0gxkqcl, hash160 path m/84'/0'/0'/1/6:, 8E2BF2E116FFB46D7C211D7C347E56177BCAB2BDhash160 in table:, 8E2BF2E116FF4E462C480FE8A2E8F478EDDD5A0F, Sun Apr 16 18:11:54 2023*
 
 
 
@@ -89,11 +106,11 @@
 > *!!!FOUND!!!*</br>
 > *!!!FOUND!!*
 
-Соответственно мнемоника и адрес который мы нашли. И информация добавиться в файл Found_Addresses.csv.
+Соответственно мнемоника и адрес который мы нашли. Эта информация добавиться в файл Found_Addresses.csv.
 В файле строки хранятся в виде:</br>
 *chicken jewel keen arm artefact disorder gravity claim sick female verb faint, address path m/49'/0'/0'/0/2, 32AZej6V3qhSceTqTp6hmhrUCYaEBHRTP4, Sun Apr  2 12:51:42 2023*
 
-## Файл BruteForceMnemonicBitcoinV12.exe находится в папке exe
+## Файл BruteForceMnemonicBitcoinLimitWordsV200.exe находится в папке exe
 
 
 
