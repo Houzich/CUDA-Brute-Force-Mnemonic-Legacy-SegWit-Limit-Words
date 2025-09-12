@@ -26,3 +26,4 @@ namespace tools {
 	void Test();
 	int getWordIndices(std::string str, uint16_t* gen_words_indices);
 }
+

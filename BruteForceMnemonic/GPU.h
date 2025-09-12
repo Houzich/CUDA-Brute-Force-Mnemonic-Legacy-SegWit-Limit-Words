@@ -42,3 +42,4 @@ extern __constant__ uint32_t dev_num_paths[];
 extern __constant__ int16_t dev_static_words_indices[];
 extern __constant__ uint32_t dev_rounds_check_validity[1];
 //extern __constant__ uint16_t dev_find_words_indices[];
+
